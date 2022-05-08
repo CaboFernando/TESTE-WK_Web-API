@@ -15,10 +15,11 @@ namespace Web_API.Controllers
             repos = _repos;
         }
 
-        [HttpGet]
-        public IActionResult GetProdutos()
+        [HttpGet("{id}")]
+        public IActionResult GetProdutos([FromRoute] int id)
         {
-            return Ok();
+            var produto = repos.Read(id);
+            return Ok(produto);
         }
 
         [HttpPost]
@@ -31,15 +32,21 @@ namespace Web_API.Controllers
         }
 
         [HttpPut]
-        public IActionResult PutProdutos()
+        public IActionResult PutProdutos([FromBody] PutProdutos produto)
         {
-            return Ok();
+            if (repos.Update(produto))
+                return Ok();
+
+            return BadRequest();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteProdutos()
+        [HttpDelete("{id}")]
+        public IActionResult DeleteProdutos([FromRoute] int id)
         {
-            return Ok();
+            if (repos.Delete(id))
+                return Ok();
+
+            return BadRequest();
         }
 
     }
