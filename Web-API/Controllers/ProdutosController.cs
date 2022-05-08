@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web_API.Models.Entities.Produtos;
+using Web_API.Repositories;
 
 namespace Web_API.Controllers
 {
@@ -6,6 +8,13 @@ namespace Web_API.Controllers
     [ApiController]
     public class ProdutosController : Controller
     {
+        private readonly IProdutoRepository repos;
+
+        public ProdutosController(IProdutoRepository _repos)
+        {
+            repos = _repos;
+        }
+
         [HttpGet]
         public IActionResult GetProdutos()
         {
@@ -13,9 +22,12 @@ namespace Web_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostProdutos()
+        public IActionResult PostProdutos([FromBody] PostProdutos produto)
         {
-            return Ok();
+            if(repos.Create(produto))
+                return Ok();
+
+            return BadRequest();
         }
 
         [HttpPut]
