@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web_API.Models.Entities.Categorias;
+using Web_API.Repositories;
 
 namespace Web_API.Controllers
 {
@@ -6,28 +8,45 @@ namespace Web_API.Controllers
     [ApiController]
     public class CategoriasController : Controller
     {
-        [HttpGet]
-        public IActionResult GetCategorias()
+        private readonly ICategoriaRepository repos;
+
+        public CategoriasController(ICategoriaRepository _repos)
         {
-            return Ok();
+            repos = _repos;
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetCategorias([FromRoute] int id)
+        {
+            var categoria = repos.Read(id);
+            return Ok(categoria);
         }
 
         [HttpPost]
-        public IActionResult PostCategorias()
+        public IActionResult PostCategorias([FromBody] PostCategorias categoria)
         {
-            return Ok();
+            if (repos.Create(categoria))
+                return Ok();
+
+            return BadRequest();
         }
 
         [HttpPut]
-        public IActionResult PutCategorias()
+        public IActionResult PutCategorias([FromBody] PutCategorias categoria)
         {
-            return Ok();
+            if (repos.Update(categoria))
+                return Ok();
+
+            return BadRequest();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteCategorias()
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategorias([FromRoute] int id)
         {
-            return Ok();
+            if (repos.Delete(id))
+                return Ok();
+
+            return BadRequest();
         }
     }
 }

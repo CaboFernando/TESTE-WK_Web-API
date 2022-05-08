@@ -17,6 +17,7 @@ builder.Services.AddDbContext<_DbContext>(x => x.UseSqlServer(
 
 // Injeção da dependência do repositorio
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
