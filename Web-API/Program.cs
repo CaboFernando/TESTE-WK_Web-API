@@ -8,11 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<_DbContext>(x => x.UseSqlServer(
-    
-        builder.Configuration.GetConnectionString("DefaultConnectionSqlServer")//, <== Usando SQL Server
-        //builder.Configuration.GetConnectionString("DefaultConnectionMySql"), <== Usando MySql
-        //ServerVersion.Parse("10.4.22")
+// Usando SQL Server
+//builder.Services.AddDbContext<_DbContext>(x => x.UseSqlServer(
+
+//        builder.Configuration.GetConnectionString("DefaultConnectionSqlServer")
+
+//    ));
+// Usando MySql
+builder.Services.AddDbContext<_DbContext>(x => x.UseMySql(
+
+        builder.Configuration.GetConnectionString("DefaultConnectionMySql"),
+        ServerVersion.Parse("10.4.22")
     ));
 
 // Injeção da dependência do repositorio
